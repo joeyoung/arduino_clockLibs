@@ -1,0 +1,92 @@
+Notes regarding the use of clock chip libraries
+
+March 10, 2014 - G. D. (Joe) Young <jyoung@islandnet.com>
+
+
+
+The main design goal of providing the user with (as much as possible) a common
+interface to a variety of clock chips is illustrated in the example clockDisp.
+To make this sketch (display clock's date and time on 2X16 LCD) work with one
+of the supported libraries, only the #include <libName.h> needs to be set to
+the correct connected I2C bus clock chip.
+
+The clock manufacturers provide a feature to ensure that a time increment
+(usually at one second) has completely rippled through the counters so that a
+read is consistent. The time registers are frozen during i/o of the date/time
+and it's therefore recommended to read ALL of the registers (sec, min, ..., yr)
+with one I2C access to be sure they are consistent. The library provision of
+separate access functions for date and time does not follow this recommendation
+and so requires some care to be sure separate readings correspond to the same
+instant in time. One method (used int the example sketch clockDisp) is to
+synchronize loop activities with the clock's time.sec value so that reading
+the clock occurs just after the second rollover. Then, there is just under a
+second remaining to get both the date and time when it is known the registers
+are not changing. A second method available is to use the getStatus block read
+mode and get all of the time and date registers at once, thereby following the
+chip manufacturer's recommended method of ensuring consistent time, date
+values.
+
+The libraries hide some of the differences between chips. For example, the day
+of week byte returns value 0..6 in the PCF8563, but 1..7 in the DS3231. The 
+getTime access function returns the day of week (clk.dow) in the range 1..7 for
+both.
+
+As an illustration of some of the things the library does not hide, the DS3231,
+RV3029 have a temperature sensor (because their time base is temp corrected) 
+and the PCF8563 does not. So, the example sketch clockDisp has conditional-
+compile switches around the temperature display--the display is blanked for the 
+8563, shows temp for 3231 and RV3029.
+
+The library headers define the datasheet bit names for various bits in the
+clock registers. The definition gives the bit position 0..7. So, eg., to enable
+a once/minute alarm2 in the DS3231, you would (possibly) getAlarm(1, aAry), 
+then set the alarm mask bits A2M2, A2M3, and A2M4 with something like:
+	aAry[0] = amin | (1<<A2M2);
+	aAry[1] = ahr | (1<<A2M3);
+	aAry[2] = aday | (1<<A2M4);
+then re-write the alarm registers with setAlarm( 1, aAry ).
+
+The getStatus, setStatus block mode read and set several status bytes at once.
+The byte mode of these functions read and write a single byte. The byte mode
+would usually be used to alter one or two bits in a clock register, such as
+clearing a flag (see the alarm handling in clockDisp example). The block mode
+is useful for handling the timers, scratchpad memory, etc. that is often 
+available with IC clocks. The two modes are distinguished by the call
+argument list: getStatus( register, count, arrayaddress ) gets a contiguous
+block of count bytes of the clock's registers beginning at the chip address
+'register'; getStatus( register, byteaddress ) retrieves the single byte from
+chip address 'register'. Some literals are defined in the various .h files to
+help with symbolic addresses for typical status access. For example the timer
+register(s) address in the PCF8563, and RV3029 are named PCSTATMR, and
+RVSTATMR respectively.
+
+The alarms also differ considerably from one device to another. The getAlarm
+and setAlarm access functions simply copy all the alarm bytes to/from an
+array of bytes which can be sized with constant ALARM_SIZE.
+
+The RV3029 alarms require that both the AE_x enable bit(s) be set = 1 to select
+the alarm frequency, and AIE, alarm interrupt enable, set = 1. If AIE is 0,
+the alarm flag AF is not set, even if the alarm condition is otherwise met.
+
+The example sketch setClock allows setting a clock's date, time, and alarm
+registers from serial monitor input. This program is very simple, rigid in its
+format requirements, and has limited error checking. That is, it's possible to
+totally mess up a clock's registers with setClock. The program prompts with 
+the current value of the clock's date registers, then waits for exactly 4 pairs
+of digits terminated with a \ which will be used to set the clock. If the
+number of digits entered is not exact, the clock is left unchanged. Then, the
+existing time is prompted, then the alarm, and in each case waiting for
+exactly the right number of digits. If a field is to be left unchanged, an
+empty line (single \) will advance to the next field, so this can be used to
+review the settings. The program parses the input line by reading a character,
+mask down to the 4 LSB, shift left 4 bits, OR in the next character's 4 LSB.
+The next character is ignored (so it can be anything, space, /, :, ;, .,) then
+the process is repeated. Setting non-BCD values with setClock requires using 
+hex digits. For example to enable an RV3029 alarm every time the minutes
+register becomes 25, requires the minutes alarm byte be (binary) 10100101
+(hex 0xA5). The total entry for this alarm would thus be: 00 A5 00 00 00 00 00\
+
+
+
+
+

@@ -1,0 +1,99 @@
+###########################################
+# Syntax Coloring Map For PCF8563
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+PCF8563	KEYWORD1
+Time	KEYWORD1
+Date	KEYWORD1
+
+
+###########################################
+# clock Library constants
+###########################################
+
+RTC_OK	LITERAL1
+RTC_RD_ERR	LITERAL1
+RTC_TM_RD_ERR	LITERAL1
+RTC_DT_RD_ERR	LITERAL1
+RTC_ST_RD_ERR	LITERAL1
+RTC_AL_RD_ERR	LITERAL1
+RTC_SET_ERR	LITERAL1
+RTC_WR_ERR	LITERAL1
+RTC_TM_WR_ERR	LITERAL1
+RTC_DT_WR_ERR	LITERAL1
+RTC_ST_WR_ERR	LITERAL1
+RTC_AL_WR_ERR	LITERAL1
+
+###########################################
+#clock register bit definitions
+###########################################
+# control_status_1 register address 0x00 (byte 0 from getStatus)
+TEST1	LITERAL1
+STOP	LITERAL1
+TESTC	LITERAL1
+# control_status_2 register address 0x01 (byte 1 from getStatus)
+TI_TP	LITERAL1
+AF	LITERAL1
+TF	LITERAL1
+AIE	LITERAL1
+TIE	LITERAL1
+# CLKOUT_Control register address 0x0D (byte 2 from getStatus)
+FE	LITERAL1
+FD1	LITERAL1
+FD0	LITERAL1
+# Timer_control register address 0x0E (byte 3 from getStatus; byte 4 is timer value)
+TE	LITERAL1
+TD1	LITERAL1
+TD0	LITERAL1
+# alarm registers address 0x09..0x0C
+AE	LITERAL1
+AE_M	LITERAL1
+AE_H	LITERAL1
+AE_D	LITERAL1
+AE_W	LITERAL1
+# misc - VL is in seconds time reg, century in year time reg
+VL	LITERAL1
+CN	LITERAL1
+
+PCSTATUS	LITERAL1
+PCSTATMR	LITERAL1
+ALARM_SIZE	LITERAL1
+
+# time and date structure members (not really literals, but what else?)
+yr	LITERAL1
+mo	LITERAL1
+dow	LITERAL1
+dom	LITERAL1
+hr	LITERAL1
+min	LITERAL1
+sec	LITERAL1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+begin	KEYWORD2
+getTime	KEYWORD2
+getDate	KEYWORD2
+getStatus	KEYWORD2
+getAlarm	KEYWORD2
+
+setTime	KEYWORD2
+setDate	KEYWORD2
+setStatus	KEYWORD2
+setAlarm	KEYWORD2
+
+
+###########################################
+# objects created in the example sketches.
+###########################################
+
+clk	KEYWORD3
+clk2	KEYWORD3
+time	KEYWORD3
+date	KEYWORD3
+

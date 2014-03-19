@@ -1,0 +1,123 @@
+###########################################
+# Syntax Coloring Map For RV3029
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+RV3029	KEYWORD1
+Time	KEYWORD1
+Date	KEYWORD1
+
+
+###########################################
+# clock Library constants
+###########################################
+
+RTC_OK	LITERAL1
+RTC_RD_ERR	LITERAL1
+RTC_TM_RD_ERR	LITERAL1
+RTC_DT_RD_ERR	LITERAL1
+RTC_ST_RD_ERR	LITERAL1
+RTC_AL_RD_ERR	LITERAL1
+RTC_SET_ERR	LITERAL1
+RTC_WR_ERR	LITERAL1
+RTC_TM_WR_ERR	LITERAL1
+RTC_DT_WR_ERR	LITERAL1
+RTC_ST_WR_ERR	LITERAL1
+RTC_AL_WR_ERR	LITERAL1
+
+###########################################
+#clock register bit definitions
+###########################################
+# control_1 register address 0x00
+RVSTAT0	LITERAL1
+CLK_INT	LITERAL1
+TD1	LITERAL1
+TD0	LITERAL1
+SRON	LITERAL1
+EERE	LITERAL1
+TAR	LITERAL1
+TE	LITERAL1
+WE	LITERAL1
+# control_INT register address 0x01
+RVSTAT1	LITERAL1
+SRIE	LITERAL1
+V2IE	LITERAL1
+V1IE	LITERAL1
+TIE	LITERAL1
+AIE	LITERAL1
+# control_INT_FLAG register address 0x02
+RVSTAT2	LITERAL1
+SRF	LITERAL1
+V2F	LITERAL1
+V1F	LITERAL1
+TF	LITERAL1
+AF	LITERAL1
+# control_status register address 0x3
+RVSTAT3	LITERAL1
+EEBUSY	LITERAL1
+PON	LITERAL1
+SR	LITERAL1
+V2F	LITERAL1
+V1F	LITERAL1
+# control_reset register adress 0x4
+RVSTAT4	LITERAL1
+SYSR	LITERAL1
+# Timer register address 0x18, low byte, 0x19 high byte
+RVSTATMR	LITERAL1
+# Temperature register address 0x20 (byte 7 from getStatus)
+RVSTATMP	LITERAL1
+# alarm registers address 0x10..0x16
+AE_S	LITERAL1
+AE_M	LITERAL1
+AE_H	LITERAL1
+AE_D	LITERAL1
+AE_W	LITERAL1
+AE_MO	LITERAL1
+AE_Y	LITERAL1
+
+#size of byte array to be used by getAlarm
+ALARM_SIZE	LITERAL1
+
+#eeprom, user ram block start adressses
+RVSTATEEU	LITERAL1
+RVSTATEEC	LITERAL1
+RVSTATRWM	LITERAL1
+
+
+# time and date structure members (not really literals, but what else?)
+yr	LITERAL1
+mo	LITERAL1
+dow	LITERAL1
+dom	LITERAL1
+hr	LITERAL1
+min	LITERAL1
+sec	LITERAL1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+begin	KEYWORD2
+getTime	KEYWORD2
+getDate	KEYWORD2
+getStatus	KEYWORD2
+getAlarm	KEYWORD2
+
+setTime	KEYWORD2
+setDate	KEYWORD2
+setStatus	KEYWORD2
+setAlarm	KEYWORD2
+
+
+###########################################
+# objects created in the example sketches.
+###########################################
+
+clk	KEYWORD3
+clk2	KEYWORD3
+time	KEYWORD3
+date	KEYWORD3
+
