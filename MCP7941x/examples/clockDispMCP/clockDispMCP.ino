@@ -14,6 +14,7 @@
 //          Mar 17/14 - use revised getStatus, setStatus
 //          Mar 17/14 - DS version with alarm1 flashing
 //          Mar 18/14 - PCF version
+//          Mar 22/14 - MCP version
 
 
 
@@ -21,8 +22,9 @@
 #include <LiquidCrystal_I2C.h>
 #include <flashPin.h>
 
+#include <MCP7941x.h>
 //#include <PCF8563.h>
-#include <DS3231.h>
+//#include <DS3231.h>
 //#include <RV3029.h>
 
 #define LCD_ADR 0x20  // set the LCD address to 0x20
@@ -42,6 +44,9 @@ DS3231 clk;
 #endif
 #ifdef RV3029_HDR
 RV3029 clk;
+#endif
+#ifdef MCP7941x_HDR
+MCP7941x clk;
 #endif
 Time time;
 Date date;        // now use structures for clock info
@@ -87,6 +92,12 @@ void setup( ) {
   statflags &= ~(1<<AF);  //clear alarm flag
   clk.setStatus( PCSTATUS+1, statflags );  //write flags back
 #endif
+#ifdef MCP7941x_HDR
+  byte statflags;
+  clk.getStatus( MCSTATUS, &statflags ); // read control reg
+  statflags |= (1<<ALM0); //set enable for alarm0
+  clk.setStatus( MCSTATUS, statflags );
+#endif
 }
 
 boolean alarmFlashing = false;
@@ -110,6 +121,19 @@ void loop()
       putTime( time );
       clk.getDate( date );
       putDate( date );
+#ifdef MCP7941x_HDR
+      lcd.setCursor( 9, 1 );
+      lcd.print( "        " );
+      byte statalm;
+      clk.getStatus( ALARM0ADR+3, &statalm );   //check alarm flag
+      if( statalm & (1<<ALM0IF) ) {
+        clk.setStatus( ALARM0ADR+3, statalm&(~(1<<ALM0IF) ) );
+        pin13.flash( );
+        alarmFlashing = true;
+      } else {
+        alarmFlashing = false;
+      } // if alarm flag bit set 
+#endif
 #ifdef PCF8563_HDR
       lcd.setCursor( 9, 1 );
       lcd.print( "        " );

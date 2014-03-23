@@ -175,7 +175,7 @@ void putTime( Time &tim ) {
 
 void putDate( Date &dat ) {
   lcd.setCursor( 0, 0 );
-  lcd.print( days[dat.dow] );   // be aware of clock chips dow: 0..6, or 1..7
+  lcd.print( days[dat.dow-1] );   // be aware of clock chips dow: 0..6, or 1..7
   lcd.write( ' ' );
   byte bixmo = ( ((dat.mo&0x10)>>4)*10 ) + ( date.mo&0x07 );
   lcd.print( months[bixmo-1] );

@@ -105,7 +105,7 @@ byte PCF8563::setTime( Time &setT ) {
 byte PCF8563::setDate( Date &setD ) {
 	writeClock( pcDate );	// setup writing to date registers
 	Wire.write( setD.dom );	// fill in date values
-	Wire.write( setD.dow );
+	Wire.write( setD.dow - 1 );
 	Wire.write( setD.mo );
 	Wire.write( setD.yr );
 	errCode = Wire.endTransmission( );	//send to chip

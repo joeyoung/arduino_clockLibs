@@ -1,0 +1,100 @@
+###########################################
+# Syntax Coloring Map For MCP7941x
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+MCP7941x	KEYWORD1
+Time	KEYWORD1
+Date	KEYWORD1
+
+
+###########################################
+# clock Library constants
+###########################################
+
+RTC_OK	LITERAL1
+RTC_RD_ERR	LITERAL1
+RTC_TM_RD_ERR	LITERAL1
+RTC_DT_RD_ERR	LITERAL1
+RTC_ST_RD_ERR	LITERAL1
+RTC_AL_RD_ERR	LITERAL1
+RTC_SET_ERR	LITERAL1
+RTC_WR_ERR	LITERAL1
+RTC_TM_WR_ERR	LITERAL1
+RTC_DT_WR_ERR	LITERAL1
+RTC_ST_WR_ERR	LITERAL1
+RTC_AL_WR_ERR	LITERAL1
+
+###########################################
+#clock register bit definitions
+###########################################
+# Misc. status bits among time/date registers
+ST	LITERAL1
+OSCON	LITERAL1
+VBAT	LITERAL1
+VBATEN	LITERAL1
+LP	LITERAL1
+# control register (adr 0x07)
+OUT	LITERAL1
+SQWE	LITERAL1
+ALM1	LITERAL1
+ALM0	LITERAL1
+EXTOSC	LITERAL1
+RS2	LITERAL1
+RS1	LITERAL1
+RS0	LITERAL1
+# alarm 0 controls (adr 0x0D)
+ALM0POL	LITERAL1
+ALM0C2	LITERAL1
+ALM0C1	LITERAL1
+ALM0C0	LITERAL1
+ALM0IF	LITERAL1
+# alarm1 controls (adr 0x14)
+ALM1POL	LITERAL1
+ALM1C2	LITERAL1
+ALM1C1	LITERAL1
+ALM1C1	LITERAL1
+ALM1IF	LITERAL1
+# misc - VL is in seconds time reg, century in year time reg
+
+MCSTATUS	LITERAL1
+MCSTATMS	LITERAL1
+ALARM_SIZE	LITERAL1
+
+# time and date structure members (not really literals, but what else?)
+yr	LITERAL1
+mo	LITERAL1
+dow	LITERAL1
+dom	LITERAL1
+hr	LITERAL1
+min	LITERAL1
+sec	LITERAL1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+begin	KEYWORD2
+getTime	KEYWORD2
+getDate	KEYWORD2
+getStatus	KEYWORD2
+getAlarm	KEYWORD2
+
+setTime	KEYWORD2
+setDate	KEYWORD2
+setStatus	KEYWORD2
+setAlarm	KEYWORD2
+
+
+###########################################
+# objects created in the example sketches.
+###########################################
+
+clk	KEYWORD3
+clk2	KEYWORD3
+time	KEYWORD3
+date	KEYWORD3
+
