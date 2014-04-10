@@ -16,5 +16,7 @@ The clock chips available (so Far) are:
  DS3231
  PCF8563
  RV3029
+ MCP7941x - April 9/14
+ DS1307
 
 

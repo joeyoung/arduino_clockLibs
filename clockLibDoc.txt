@@ -1,6 +1,7 @@
 Notes regarding the use of clock chip libraries
 
 March 10, 2014 - G. D. (Joe) Young <jyoung@islandnet.com>
+April 10/14 - DS1307 paragraph
 
 
 
@@ -86,7 +87,20 @@ hex digits. For example to enable an RV3029 alarm every time the minutes
 register becomes 25, requires the minutes alarm byte be (binary) 10100101
 (hex 0xA5). The total entry for this alarm would thus be: 00 A5 00 00 00 00 00\
 
-
+The DS1307 is a fairly simple RTC chip that does not have alarms. However, the
+DS1307 library has implemented 'software alarms' (see file clockLibAlarms.txt
+for more detail). Consequently, the same access functions getAlarm, setAlarm
+can still be used to read and set soft-alarm registers stored in the IC read-
+write memory area. However, there are three additional requirements: the sketch
+must provide an array of bytes of size 2*ALARM_SIZE+2 (10 bytes with current
+definitions, and ALARM_SIZE+2 larger than other libraries); an array of
+unsigned longs to use as timers, one for each alarm; and the sketch loop needs
+to include a call to function checkAlarm( alarmNr, alarmArray, timerArray ).
+The alarm(s) are stored in the first few bytes of the read-write area, with the
+very first byte being used for alarm-set flags. The flags byte use limits the
+number of alarms to 8. Using alarms with the DS1307 will add about 1.5K to any
+sketch because of calling checkAlarm. If alarms are not used, this space is
+not taken.
 
 
 

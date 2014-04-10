@@ -1,0 +1,69 @@
+Outline for 'software alarm' clockLibs feature for clock IC that do not have
+hardware alarms - eg DS1307
+
+March 29, 2014  -  G. D. (Joe) Young <jyoung@islandnet.com>
+
+* use chip's rwm to hold alarm(s) settings in format similar to hardware. IE:
+
+  bit:  7   6   5   4   3   2   1   0
+  use: AE   x  10s 10s 1s  1s  1s  1s		BCD Seconds ( 00..59 )
+
+  use: AE   x  10m 10m 1m  1m  1m  1m		BCD Minutes ( 00..59 )
+
+  use: AE   x  10h 10h 1h  1h  1h  1h		BCD Hours ( 00..23 )
+
+  use: AE   x   x   x   x  dow dow dow		BCD day of week ( 01..07 )
+
+  where AE is alarm enable for each field, x is don't care (usually 0)
+
+* To emulate the typical hardware alarm function, the time in the clock must
+  match ALL of the corresponding alarm values which have AE bit = 1. Values
+  where AE = 0 are ignored. So, a once-a-week alarm for tuesday, 10:23:10
+  would have all the alarm registers active, with values:
+	10010000 10 sec
+	10100011 23 min
+	10010000 10 hr
+	10000011  3 dow (assuming sunday ==> day 1)
+
+* An extra function checkAlarm( AlmNr, array ) is called at the sketch loop
+  rate to watch the clock and compare current time with the alarm. But to keep
+  the I2C bus traffic down, the clock is not read that often; instead non-
+  blocking timer is used to coordinate readings of the chip to an instant
+  just after the seconds rollover, and for the seconds alarm the timer is used
+  alone set to the number of seconds from the current time to the next alarm.
+
+  Consistent with the 'no storage in library functions' design of clockLibs,
+  the alarm uses an array allocated in the using sketch to hold the temporary
+  values of the current time and the alarm registers. 
+
+
+Overall structure of checkAlarm
+-------------------------------
+
+
+if first entry
+	read chip time, alarm registers into array
+	determine which alarm registers active, setup for:
+		if none enabled --> flag 'not set'
+		if only seconds --> setup timer for seconds to alarm
+		if minutes, seconds --> timer to seconds, then read each minute until
+		  match; gets mm:ss alarm
+		if hr, min, sec --> timer to seconds, read each minute until match 
+		  both hr:min
+		if dow, hr, min, sec --> timer to seconds, read each minute until match
+		  all dow hh:mm:ss
+return false
+
+if subsequent entry && alarm set
+	if seconds timing
+		at timeout, if only secs --> alarm, return true
+		            if others, check for match, reset timer for 1 min
+	if minutes or minutes plus timing
+		check for all enabled to match --> alarm, return true
+		no match, reset timing (keeps timer aligned with clock)
+return false
+
+if subsequent entry && alarm not set, return false.
+
+
+
