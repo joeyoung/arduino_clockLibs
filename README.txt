@@ -19,4 +19,10 @@ The clock chips available (so Far) are:
  MCP7941x - April 9/14
  DS1307
 
+A subset of access functions to use time from gps NMEA $GPRMC sentences:
+ gpsClock - April 24/14
+
+An example sketch in the gpsClock library shows a rudimentary method of 
+setting the date and time of the IC clocks from the gps time.
+
 

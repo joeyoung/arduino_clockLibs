@@ -2,6 +2,7 @@ Notes regarding the use of clock chip libraries
 
 March 10, 2014 - G. D. (Joe) Young <jyoung@islandnet.com>
 April 10/14 - DS1307 paragraph
+April 24/14 - gpsClock section
 
 
 
@@ -102,5 +103,28 @@ number of alarms to 8. Using alarms with the DS1307 will add about 1.5K to any
 sketch because of calling checkAlarm. If alarms are not used, this space is
 not taken.
 
+
+gpsClock
+--------
+
+This library is different in kind from those above in that the 'clock' 
+information is parsed from the gps NMEA serial data signal's $GPRMC sentences,
+and does not access a clock IC. Consequently, only a small subset of library
+functions make sense, namely getTime, getDate, and getStatus. The 'setXxxx' 
+function implementations are empty stubs.
+
+Timing considerations are quite different because getting current time or
+date requires waiting for the next available $GPRMC, which are typically 
+separated by one second. Since the library concept of separate access for time
+and date would thus be at least one second apart, an additional getTime function
+is provided which accepts both Time and Date structure references and returns
+the two items from the same sentence. Examples show the different timing
+behaviours.
+
+Since the $GPRMC sentence does not include a 'day of week' value, the library
+supplies the dow value for the Date structure by means of a modified Zeller's
+congruence calculation. The modification eliminates the century from the year,
+and also eliminates the leap year correction for centuries divisible by 4. The
+modified calculation is therefore no good for dates before 2001 or after 2099.
 
 
