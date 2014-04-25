@@ -1,0 +1,66 @@
+###########################################
+# Syntax Coloring Map For gpsClock
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+gpsClock	KEYWORD1
+Time	KEYWORD1
+Date	KEYWORD1
+
+
+###########################################
+# clock Library constants
+###########################################
+
+RTC_OK	LITERAL1
+RTC_RD_ERR	LITERAL1
+RTC_TM_RD_ERR	LITERAL1
+RTC_DT_RD_ERR	LITERAL1
+RTC_ST_RD_ERR	LITERAL1
+RTC_AL_RD_ERR	LITERAL1
+RTC_SET_ERR	LITERAL1
+RTC_WR_ERR	LITERAL1
+RTC_TM_WR_ERR	LITERAL1
+RTC_DT_WR_ERR	LITERAL1
+RTC_ST_WR_ERR	LITERAL1
+RTC_AL_WR_ERR	LITERAL1
+
+# time and date structure members (not really literals, but what else?)
+yr	LITERAL1
+mo	LITERAL1
+dow	LITERAL1
+dom	LITERAL1
+hr	LITERAL1
+min	LITERAL1
+sec	LITERAL1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+getTime	KEYWORD2
+getDate	KEYWORD2
+getStatus	KEYWORD2
+
+# clock methods not applicable to gps clock
+#getAlarm	KEYWORD2
+
+#setTime	KEYWORD2
+#setDate	KEYWORD2
+#setStatus	KEYWORD2
+#setAlarm	KEYWORD2
+
+
+###########################################
+# objects created in the example sketches.
+###########################################
+
+clk	KEYWORD3
+clk2	KEYWORD3
+gpc	KEYWORD3
+time	KEYWORD3
+date	KEYWORD3
+
