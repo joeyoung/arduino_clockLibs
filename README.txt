@@ -18,6 +18,7 @@ The clock chips available (so Far) are:
  RV3029
  MCP7941x - April 9/14
  DS1307
+ DS1302 - May 3/14
 
 A subset of access functions to use time from gps NMEA $GPRMC sentences:
  gpsClock - April 24/14

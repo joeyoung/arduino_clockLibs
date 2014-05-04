@@ -1,0 +1,46 @@
+Development of DS1302 library
+-----------------------------
+
+April 29, 2014  G. D. (Joe) Young <jyoung@islandnet.com>
+May 3, 2014
+
+The DS1302 is not an I2C bus device, in spite of it's using suggestive names for
+the signal pins and having a command byte with the same format as the I2C.
+Instead, data access is controlled by a third, chip-enable (CE) pin while the
+clock/data timing is not the same as for I2C access.
+
+The required access signals can be generated fairly simply with the arduino
+digital I/O facilities -- see the example sketch DS2accessDesign or 
+DS2accessBurst. The library incorporates these methods instead of the I2C access
+functions.
+
+As with other devices, the DS1302 timekeeping registers are all copied 
+simultaneously to a holding set so that the entire set is time coherent from the
+instant of access, even though it's possible that a time increment occurs during
+the finite reading time. However, the chip does not permit multi-byte reads of
+separate groups. Consequently, the library philosophy of separate reading of
+time and date (to permit minimum space use when only one subset is needed), is
+thwarted. The only multi-byte operation that will get this coherent time/date
+set is the burst mode which must always start at 0--you can get time alone, but
+if you want date alone you read time anyway. Similarly all the registers should
+all be written in one burst. The library thus provides two getTime versions--for
+time alone, and both time and date. The getTime and getDate individual functions
+still work as expected, but the getDate actually burst-reads all the clock
+registers while returning only the date. This operation allows for possible
+discrepancies between the time and date. For instance, if the date is fetched at
+23:59:59, and the date is then fetched a second later, the two together are 
+inconsistent. Similarly, the setTime(time) and setDate(date) functions just 
+byte-write the individual clock locations so inconsistent clock setting would be
+possible. If the date is set first at a time not near the day rollover, then the
+time is set the possibility of inconsistent setting is minimized. However, a 
+setTime function with both date and time arguments is provided that uses the 
+burst write mode to set all the clock register coherently. 
+
+The DS1302, like the DS1307 does not have any alarm functions. The clockLibs 
+library implements a 'software alarm' by keeping the alarm data in the chip's
+read-write memory area, and providing a non-blocking checkAlarm function which
+is called at the loop rate to see if the set alarm time has been reached. See
+the document clockLibAlarms.txt, and the example sketch clockDispDS2_2 which
+implements two alarms.
+
+
