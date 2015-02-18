@@ -1,0 +1,85 @@
+###########################################
+# Syntax Coloring Map For DS3231
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+DS1340	KEYWORD1
+Time	KEYWORD1
+Date	KEYWORD1
+
+
+###########################################
+# clock Library constants
+###########################################
+
+RTC_OK	LITERAL1
+RTC_RD_ERR	LITERAL1
+RTC_TM_RD_ERR	LITERAL1
+RTC_DT_RD_ERR	LITERAL1
+RTC_ST_RD_ERR	LITERAL1
+RTC_AL_RD_ERR	LITERAL1
+RTC_SET_ERR	LITERAL1
+RTC_WR_ERR	LITERAL1
+RTC_TM_WR_ERR	LITERAL1
+RTC_DT_WR_ERR	LITERAL1
+RTC_ST_WR_ERR	LITERAL1
+RTC_AL_WR_ERR	LITERAL1
+
+# century, in date.mo byte
+CB 	LITERAL1
+# alarm enables no alarms in 1340
+# control/status
+EOSC	LITERAL1
+OUT	LITERAL1
+FT	LITERAL1
+S	LITERAL1
+RS1	LITERAL1
+CAL4	LITERAL1
+CAL3	LITERAL1
+CAL2	LITERAL1
+CAL1	LITERAL1
+CAL0	LITERAL1
+TCS3	LITERAL1
+TCS2	LITERAL1
+TCS1	LITERAL1
+TCS0	LITERAL1
+DS1	LITERAL1
+DS0	LITERAL1
+ROUT1	LITERAL1
+ROUT0	LITERAL1
+OSF	LITERAL1
+
+yr	LITERAL1
+mo	LITERAL1
+dow	LITERAL1
+dom	LITERAL1
+hr	LITERAL1
+min	LITERAL1
+sec	LITERAL1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+begin	KEYWORD2
+getTime	KEYWORD2
+getDate	KEYWORD2
+getStatus	KEYWORD2
+
+setTime	KEYWORD2
+setDate	KEYWORD2
+setStatus	KEYWORD2
+
+
+###########################################
+# objects created in the example sketches.
+###########################################
+
+clk	KEYWORD3
+clk2	KEYWORD3
+time	KEYWORD3
+date	KEYWORD3
+

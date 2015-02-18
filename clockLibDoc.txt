@@ -112,6 +112,16 @@ constructor specifies which 3 pins to use - see example sketches. Nevertheless,
 the library is largely consistent with the I2C libraries. See the .txt document
 within the library for further info.
 
+The DS1340 does not have alarms, nor on-chip memory. So, the 'software alarms' 
+feature described above is not available. The access functions getAlarm, 
+setAlarm are kept as stubs returning an error if called. Perhaps a method of
+implementing alarms for this device (say using external non-volatile memory)
+can be worked out later. The device used for testing is the Gravitech I2C-RTC
+which uses a button battery for backup, so the DS1340's trickle-charge feature
+is not needed. It would be available using the low-level getStatus, setStatus 
+functions to write the trickle charger register. Similarly, the oscillator
+calibration trimming with the control register is available by this means.
+
 
 gpsClock
 --------
